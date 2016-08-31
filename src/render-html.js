@@ -4,7 +4,6 @@ var pageUrl = casper.cli.get("page-url");
 var cacheServerUri = addHttpSchemeIfNotPresent(casper.cli.get("chew-server-submission-url"));
 var pageLoadedSelector = casper.cli.get("page-loaded-selector");
 var targetUri = targetServerUri + "/" + pageUrl;
-console.log(targetUri, cacheServerUri, pageLoadedSelector, cacheServerUri, "-----------");
 
 casper.start(targetUri);
 casper.waitForSelector(pageLoadedSelector, function() {

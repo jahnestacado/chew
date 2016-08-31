@@ -7,7 +7,7 @@ var pageLoadedSelector = args.flags.pageLoadedSelector;
 
 function getCommandString(targetUrl){
     var cmd = [
-        'node_modules/casperjs/bin/casperjs src/collector.js',
+        'node_modules/casperjs/bin/casperjs src/render-html.js',
         '--target-uri="'+targetServerUri+'"',
         '--page-url="'+ targetUrl +'"',
         '--chew-server-submission-url="localhost:'+ listenPort + '/chew"',
@@ -16,7 +16,7 @@ function getCommandString(targetUrl){
     return cmd;
 }
 
-function runCommand(targetUrl, onDone){
+function execRenderHtml(targetUrl, onDone){
     var cmd = getCommandString(targetUrl);
     console.log("executing command ", cmd);
     exec(cmd, function(error, stdout, stderr) {
@@ -27,4 +27,4 @@ function runCommand(targetUrl, onDone){
     });
 }
 
-exports.run = runCommand;
+exports.run = execRenderHtml;

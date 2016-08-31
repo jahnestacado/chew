@@ -1,6 +1,6 @@
 var express = require("express");
 var cacheMW = require("./../middleware/cache.js");
-var fetchRenderedHtml = require("./../runCollector.js");
+var fetchRenderedHtml = require("./../exec-render-html.js");
 var chewRouter = express.Router();
 
 chewRouter.get("/*", cacheMW,  function(request, response){
