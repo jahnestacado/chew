@@ -1,8 +1,8 @@
 {
-  "name": "prerender-server",
+  "name": "chew",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "launch.js",
   "bin": {
     "phantomjs": "node_modules/.bin/phantomjs",
     "casperjs": "node_modules/.bin/casperjs"
