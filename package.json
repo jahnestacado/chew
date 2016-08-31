@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "bin": {
-      "phantomjs": "node_modules/phantomjs-prebuilt/bin/phantomjs",
-      "casperjs": "node_modules/casperjs/bin/casperjs"
+    "phantomjs": "node_modules/phantomjs-prebuilt/bin/phantomjs",
+    "casperjs": "node_modules/casperjs/bin/casperjs"
   },
   "scripts": {
     "start": "node launch.js --target-uri=\"localhost:7070\" --page-loaded-selector=\".panel-body\" --port=3456"
@@ -13,6 +13,7 @@
   "author": "Ioannis Tzanellis <ioannis.kiwe@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "logia": "0.0.1",
     "meow": "^3.7.0"
   }
 }

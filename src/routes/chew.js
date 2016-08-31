@@ -1,24 +1,33 @@
 var express = require("express");
 var cacheMW = require("./../middleware/cache.js");
 var fetchRenderedHtml = require("./../exec-render-html.js");
+var log = require("logia")("Chew::ChewRouter");
 var chewRouter = express.Router();
 
 chewRouter.get("/*", cacheMW,  function(request, response){
     var cache = request.pageCache;
-    var data = "Pre-rendered page: " + request.url + " is not available.";
+    var url = request.url;
+    var data = "Pre-rendered page: " + url + " is not available.";
     var status = 404;
-    var availableCachedPage = cache.get(request.url);
+    var availableCachedPage = cache.get(url);
+    log.info("GET | '{0}'", url);
     if(availableCachedPage){
         data = availableCachedPage;
         status = 200;
+        log.debug("Page found. Returning content");
         response.status(status).send(data);
     } else {
-        fetchRenderedHtml.run(request.url, function(){
-            var cachedPage = cache.get(request.url);
+        log.debug("Page not cached. Making render-page request");
+        fetchRenderedHtml.run(url, function(){
+            var cachedPage = cache.get(url);
             if(cachedPage){
                 data = cachedPage;
                 status = 200;
+                log.debug("Page found. Returning content");
+            } else{
+                log.debug(data);
             }
+
             response.status(status).send(data);
         })
     }
@@ -26,8 +35,10 @@ chewRouter.get("/*", cacheMW,  function(request, response){
 
 chewRouter.post("/chew", cacheMW, function(request, response){
     var body = request.body;
+    var url = body.pageUrl;
     var cache = request.pageCache;
-    cache.set(body.pageUrl, body.data);
+    log.info("POST | Submitting pre-rendered page: '{0}'", url);
+    cache.set(url, body.data);
     response.send("OK");
 });
 
