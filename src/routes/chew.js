@@ -5,7 +5,7 @@ var chewRouter = express.Router();
 
 chewRouter.get("/*", cacheMW,  function(request, response){
     var cache = request.pageCache;
-    var data = "Not available pre-rendered page: " + request.url +".";
+    var data = "Pre-rendered page: " + request.url + " is not available.";
     var status = 404;
     var availableCachedPage = cache.get(request.url);
     if(availableCachedPage){
