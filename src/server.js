@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var fetchRenderedHtml = require("./runCollector.js");
+var cacheMW = require("./middleware/cache.js");
 
 var Server = function(listenPort){
     var server = this;
@@ -10,18 +11,21 @@ var Server = function(listenPort){
     server.app.use(bodyParser.urlencoded());
     server.app.use(bodyParser.json());
 
-    var PAGE_CACHE = {};
-    server.app.get("/*", function(request, response){
+    server.app.get("/*", cacheMW,  function(request, response){
+        var cache = request.pageCache;
         var data = "Could not find pre-rendered page: " + request.url +".";
         var status = 404;
-        if(PAGE_CACHE[request.url]){
-            data = PAGE_CACHE[request.url];
+        console.log("WTF", cache);
+        var availableCachedPage = cache.get(request.url);
+        if(availableCachedPage){
+            data = availableCachedPage;
             status = 200;
             response.status(status).send(data);
         } else {
             fetchRenderedHtml.run(request.url, function(){
-                if(PAGE_CACHE[request.url]){
-                    data = PAGE_CACHE[request.url];
+                var cachedPage = cache.get(request.url);
+                if(cachedPage){
+                    data = cachedPage;
                     status = 200;
                 }
                 response.status(status).send(data);
@@ -29,9 +33,10 @@ var Server = function(listenPort){
         }
     });
 
-    server.app.post("/renderedHtml", function(request, response){
+    server.app.post("/renderedHtml", cacheMW, function(request, response){
         var body = request.body;
-        PAGE_CACHE[body.pageUrl] = body.data;
+        var cache = request.pageCache;
+        cache.set(body.pageUrl, body.data);
         response.send("OK");
     });
 }
