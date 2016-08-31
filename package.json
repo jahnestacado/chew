@@ -8,11 +8,10 @@
       "casperjs": "node_modules/casperjs/bin/casperjs"
   },
   "scripts": {
-    "start": "node launch.js --target-uri=\"localhost:7070\" --page-loaded-selector=\".panel-body\" --port=3456",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node launch.js --target-uri=\"localhost:7070\" --page-loaded-selector=\".panel-body\" --port=3456"
   },
   "author": "Ioannis Tzanellis <ioannis.kiwe@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "meow": "^3.7.0"
   }
