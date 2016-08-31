@@ -10,7 +10,7 @@ function getCommandString(targetUrl){
         'node_modules/casperjs/bin/casperjs src/collector.js',
         '--target-uri="'+targetServerUri+'"',
         '--page-url="'+ targetUrl +'"',
-        '--chew-server-submission-url="localhost:'+ listenPort + '/renderedHtml"',
+        '--chew-server-submission-url="localhost:'+ listenPort + '/chew"',
         '--page-loaded-selector="' + pageLoadedSelector + '"'
     ].join(" ");
     return cmd;
