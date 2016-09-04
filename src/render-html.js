@@ -3,9 +3,9 @@ var targetServerUri = addHttpSchemeIfNotPresent(casper.cli.get("target-uri"));
 var pageUrl = casper.cli.get("page-url");
 var cacheServerUri = addHttpSchemeIfNotPresent(casper.cli.get("chew-server-submission-url"));
 var pageLoadedSelector = casper.cli.get("page-loaded-selector");
-var targetUri = targetServerUri + "/" + pageUrl;
+var targetUrl = normalizeSlashes(targetServerUri + "/" + pageUrl);
 
-casper.start(targetUri);
+casper.start(targetUrl);
 casper.waitForSelector(pageLoadedSelector, function() {
     casper.thenEvaluate(function(uri, pageUrl, data) {
         $.ajax({
@@ -27,4 +27,8 @@ function addHttpSchemeIfNotPresent(uri){
         uri = "http://" + uri;
     }
     return uri;
+}
+
+function normalizeSlashes(uri){
+    return uri.replace(/[\\, \/]{2,}/g, "/");
 }
