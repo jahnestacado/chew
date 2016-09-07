@@ -7,7 +7,7 @@ var chewRouter = express.Router();
 chewRouter.get("/*", cacheMW,  function(request, response){
     var cache = request.pageCache;
     var url = request.url;
-    var data = "Pre-rendered page: " + url + " is not available.";
+    var data = "Pre-rendered page: " + request.originalUrl + " is not available.";
     var status = 404;
     var availableCachedPage = cache.get(url);
     log.info("GET | '{0}'", url);
@@ -23,7 +23,7 @@ chewRouter.get("/*", cacheMW,  function(request, response){
             if(cachedPage){
                 data = cachedPage;
                 status = 200;
-                log.debug("Page found. Returning content");
+                log.debug("Page found. Returning content -->");
             } else{
                 log.debug(data);
             }
@@ -37,7 +37,7 @@ chewRouter.post("/chew", cacheMW, function(request, response){
     var body = request.body;
     var url = body.pageUrl;
     var cache = request.pageCache;
-    log.info("POST | Submitting pre-rendered page: '{0}'", url);
+    log.info("POST | Caching pre-rendered page: '{0}'", request.originalUrl);
     cache.set(url, body.data);
     response.send("OK");
 });
