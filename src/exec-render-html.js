@@ -5,9 +5,11 @@ var targetServerUri = args.flags.targetUri;
 var listenPort = args.flags.port;
 var pageLoadedSelector = args.flags.pageLoadedSelector;
 var log = require("logia")("Chew::ExecRenderHtml");
+var exportedPhantomjsBinVar = "PHANTOMJS_EXECUTABLE=node_modules/.bin/phantomjs";
 
 function getStringCommand(targetUrl){
     var cmd = [
+        'export ' + exportedPhantomjsBinVar + '; ',
         'node_modules/casperjs/bin/casperjs src/render-html.js',
         '--target-uri="'+targetServerUri+'"',
         '--page-url="'+ targetUrl +'"',
