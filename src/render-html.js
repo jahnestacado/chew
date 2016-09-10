@@ -1,4 +1,8 @@
-var casper = require("casper").create();
+var casper = require("casper").create({
+    exitOnError: false,
+    verbose: true
+});
+
 var targetServerUri = addHttpSchemeIfNotPresent(casper.cli.get("target-uri"));
 var pageUrl = casper.cli.get("page-url");
 var cacheServerUri = addHttpSchemeIfNotPresent(casper.cli.get("chew-server-submission-url"));
